@@ -12,27 +12,42 @@ public class TicTacToe {
         String input;
         byte[] cords = new byte[2];
         byte[][] playField = new byte[3][3];
+        boolean error = true;
 
         System.out.println("********************");
         System.out.println("Welcome to TicTacToe");
         System.out.println();
-        System.out.println("You can enter the coordinates of your next mark in the following form:");
+        System.out.println("You can enter the coordinates of");
+        System.out.println("your next mark in the following form:");
         System.out.println("x,y     x stands for the column and y for the row");
-        System.out.println("The columns get counted from left to right and the rows from bottom to top.");
+        System.out.println();
+        System.out.println("The columns get counted from left to right");
+        System.out.println("and the rows from bottom to top.");
         System.out.println();
         System.out.println("********************");
 
-        while (true){
+        while (true) {
             System.out.println("Current raster:");
             printRaster(playField);
             System.out.println("Player 1 (X):");
 
-            input = scanner.nextLine();
-            cords = decryptInput(input);
+            while (error) {
+                input = scanner.nextLine();
+                cords = decryptInput(input);
+                if (cords[0] != 4)
+                    error = false;
+                if (cords[0] > 2 || cords[0] < 0 || cords[1] > 2 || cords[1] < 0) {
+                    System.out.println("The values for x and y need to be between 1 and 3.");
+                    error = true;
+                }
+            }
+
+            playField[cords[0]][cords[1]] = 1;
 
         }
 
     }
+
 
     static void printRaster(byte[][] playField) {
 
@@ -67,25 +82,35 @@ public class TicTacToe {
         System.out.println("└───┴───┴───┘");
     }
 
+
     static byte[] decryptInput(String originalInput){
 
         byte[] deciphered = new byte[2];
         String[] individualChars = originalInput.split("");
-        boolean error = true;
 
-        while(error) {
-            try {
-                if (individualChars.length != 3)
-                    throw new InputMismatchException();
-                error = false;
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter the coordinates in the in the following form: x,y");
-            }
+
+        try {
+            if (individualChars.length != 3)
+                throw new InputMismatchException();
+        } catch (InputMismatchException e) {
+            System.out.println("Please enter the coordinates in the following form: x,y");
+            deciphered[0] = 4;
+            return deciphered;
         }
-        deciphered[0] =  Byte.valueOf(individualChars[0]);
-        System.out.println(deciphered[0]);
+
+        try {
+            deciphered[0] =  Byte.parseByte(individualChars[0]);
+            deciphered[1] =  Byte.parseByte(individualChars[2]);
+        } catch (NumberFormatException e){
+            System.out.println("x and y need to be numbers");
+            deciphered[0] = 4;
+            return deciphered;
+        }
+
 
         return deciphered;
     }
+
+
 
 }
