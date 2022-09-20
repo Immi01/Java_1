@@ -1,5 +1,6 @@
 package at.ImmanuelEhe.TicTacToe;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TicTacToe {
@@ -14,6 +15,11 @@ public class TicTacToe {
 
         System.out.println("********************");
         System.out.println("Welcome to TicTacToe");
+        System.out.println();
+        System.out.println("You can enter the coordinates of your next mark in the following form:");
+        System.out.println("x,y     x stands for the column and y for the row");
+        System.out.println("The columns get counted from left to right and the rows from bottom to top.");
+        System.out.println();
         System.out.println("********************");
 
         while (true){
@@ -22,8 +28,7 @@ public class TicTacToe {
             System.out.println("Player 1 (X):");
 
             input = scanner.nextLine();
-
-
+            cords = decryptInput(input);
 
         }
 
@@ -60,6 +65,27 @@ public class TicTacToe {
         System.out.println("├───┼───┼───┤");
         System.out.printf("│ %c │ %c │ %c │%n", values[6], values[7], values[8]);
         System.out.println("└───┴───┴───┘");
+    }
+
+    static byte[] decryptInput(String originalInput){
+
+        byte[] deciphered = new byte[2];
+        String[] individualChars = originalInput.split("");
+        boolean error = true;
+
+        while(error) {
+            try {
+                if (individualChars.length != 3)
+                    throw new InputMismatchException();
+                error = false;
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter the coordinates in the in the following form: x,y");
+            }
+        }
+        deciphered[0] =  Byte.valueOf(individualChars[0]);
+        System.out.println(deciphered[0]);
+
+        return deciphered;
     }
 
 }
