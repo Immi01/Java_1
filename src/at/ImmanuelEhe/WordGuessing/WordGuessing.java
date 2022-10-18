@@ -12,7 +12,7 @@ public class WordGuessing {
         Random random = new Random();
         Scanner scanner = new Scanner(System.in);
 
-        String[] Words = {"was", "isch", "hier", "los", "Fass"};
+        String[] Words = {"Heizöl", "rückstoß", "abdämpfung", "Lokomotive", "Fass", "Kirschkern", "Recycling"};
         String letters = "qwertzuiopüasdfghjklöäyxcvbnmQWERTZUIOPÜASDFGHJKLÖÄYXCVBNM";
         boolean hasCompleted = false;
         String[] countingWords = {"null", "ein", "zwei", "drei", "vier"};
@@ -24,13 +24,18 @@ public class WordGuessing {
         System.out.println("Geben sie einfach einen Buchstaben ein");
         System.out.println("um zu sehen ob er im Wort enthalten ist.");
         System.out.println();
+        System.out.println("Wenn ein Buchstabe anfangs schon angezeigt wurde,");
+        System.out.println("kann er trotzdem noch versteckt sein.");
+        System.out.println();
         System.out.println("**************");
         System.out.println();
 
         while(true){
 
-            char[] toGuess = Words[random.nextInt(0, Words.length - 1)].toCharArray();
-            char[] shownLetters = toGuess;
+            int chosenWord = random.nextInt(0, Words.length - 1);
+
+            char[] toGuess = Words[chosenWord].toCharArray();
+            char[] shownLetters = Words[chosenWord].toCharArray();
             int hiddenLetters = 0;
 
 
@@ -38,7 +43,8 @@ public class WordGuessing {
                 if(random.nextInt() > 0.75) {
                     shownLetters[i] = '*';
                     hiddenLetters++;
-                }
+                } else
+                    toGuess[i] = '*';
 
 
             while (!hasCompleted) {
@@ -75,20 +81,22 @@ public class WordGuessing {
 
                 int prevHiddenLetters = hiddenLetters;
 
-                for (int i = 0; i < toGuess.length; i++)
-                    if (charInput == toGuess[i]) {
+                for (int i = 0; i < toGuess.length; i++) {
+                    if (Character.toLowerCase(charInput) == toGuess[i] || Character.toUpperCase(charInput) == toGuess[i]) {
                         shownLetters[i] = toGuess[i];
                         hiddenLetters--;
                     }
+                }
 
                 System.out.printf("%c wurde %s-mal im Wort gefunden.%n%n", charInput, countingWords[prevHiddenLetters-hiddenLetters]);
 
                 if(hiddenLetters == 0) {
                     System.out.print("Das gesuchte Wort war ");
                     for (char shownLetter : shownLetters)
-                        System.out.println(shownLetter);
-                    System.out.printf(".%n%n");
-                    System.out.printf("Das Spiel wird sich jetzt wieder neu starten.%n%n");
+                        System.out.print(shownLetter);
+                    System.out.println(".");
+                    System.out.println("Das Spiel wird sich jetzt wieder neu starten.");
+                    System.out.printf("**************%n%n%n");
                     hasCompleted = true;
                 }
 
