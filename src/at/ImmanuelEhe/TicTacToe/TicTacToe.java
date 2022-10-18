@@ -24,11 +24,11 @@ public class TicTacToe {
         System.out.println("x,y     x stands for the column and y for the row");
         System.out.println();
         System.out.println("The columns get counted from left to right");
-        System.out.println("and the rows from bottom to top.");
+        System.out.println("and the rows from top to bottom.");
         System.out.println();
         System.out.println("********************");
 
-        while (true) {
+        do {
             System.out.println("Current raster:");
             printRaster(playField);
             if (isFirstPlayer)
@@ -58,29 +58,23 @@ public class TicTacToe {
 
 
             playerThatWon = checkForWin(playField);
-            if (playerThatWon == 1) {
+            switch (playerThatWon) {
+                case 1 -> System.out.printf("%nPlayer 1 (X) has won!%n");
+                case 2 -> System.out.printf("%nPlayer 2 (O) has won!%n");
+                case 3 -> System.out.printf("%nNo player has won, it's a tie!%n");
+            }
 
-                System.out.printf("%nPlayer 1 (X) has won!%n");
+            if (playerThatWon != 0) {
                 System.out.printf("The game will restart itself now.%n%n");
                 for (byte row = 0; row < 3; row++)
                     for (byte col = 0; col < 3; col++)
                         playField[row][col] = 0;
-
-                isFirstPlayer = false;
-            } else if (playerThatWon == 2) {
-
-                System.out.printf("%nPlayer 2 (O) has won!%n");
-                System.out.printf("The game will restart itself now.%n%n");
-                for (byte row = 0; row < 3; row++)
-                    for (byte col = 0; col < 3; col++)
-                        playField[row][col] = 0;
-
                 isFirstPlayer = false;
             }
 
             error = true;
             isFirstPlayer = !isFirstPlayer;
-        }
+        } while (true);
 
     }
 
@@ -155,15 +149,15 @@ public class TicTacToe {
         if (playerThatWon == 3)
             return 0;
 
+        if (checkIfFilled(playField))
+            return 3;
+
         playerThatWon = checkColumns(playField);
         if (playerThatWon != 0)
             return playerThatWon;
 
         playerThatWon = checkDiagonals(playField);
-        if (playerThatWon != 0)
-            return playerThatWon;
-
-        return 0;
+        return playerThatWon;
     }
 
     static byte checkRow(byte[] row) {
@@ -178,6 +172,15 @@ public class TicTacToe {
             return 3;
 
         return currentPlayer;
+    }
+
+    static boolean checkIfFilled(byte[][] playField) {
+
+        for (byte row = 0; row < 3; row++)
+            for (byte column = 0; column < 3; column++)
+                if (playField[row][column] != 0)
+                    return false;
+        return true;
     }
 
     static byte checkColumns(byte[][] playField) {
@@ -206,10 +209,12 @@ public class TicTacToe {
         byte currentPlayer = playField[0][0];
 
         for (byte[] coordinate = {0, 0}; coordinate[0] < 3; coordinate[0]++, coordinate[1]++)
-            if (currentPlayer != playField[coordinate[0]][coordinate[1]])
-                return 0;
-        if (currentPlayer == 0)
-            return 3;
+            if (currentPlayer != playField[coordinate[0]][coordinate[1]]) {
+                currentPlayer = 3;
+                break;
+            }
+        if (currentPlayer != 0 && currentPlayer != 3)
+            return currentPlayer;
 
         currentPlayer = playField[2][0];
 

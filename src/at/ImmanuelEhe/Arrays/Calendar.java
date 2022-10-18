@@ -94,13 +94,16 @@ public class Calendar {
             else
                 System.out.print(" | ");
 
-            if (i < startDay || i > numOfDays+startDay-1) System.out.print("  ");
-            else System.out.print(i-startDay+1);
+            if (i < startDay || i > numOfDays+startDay-1)
+                System.out.print("  ");
+            else
+                System.out.print(i-startDay+1);
 
             if (i-startDay+1<10 && i >= startDay) System.out.print(" ");
             i++;
 
             if (i%7 == 0) System.out.println(" |");
+
         }
 
     }
