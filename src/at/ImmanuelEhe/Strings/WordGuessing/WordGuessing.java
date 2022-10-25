@@ -1,8 +1,7 @@
-package at.ImmanuelEhe.WordGuessing;
+package at.ImmanuelEhe.Strings.WordGuessing;
 
 import java.util.Random;
 import java.util.Scanner;
-import java.util.SortedMap;
 
 public class WordGuessing {
 

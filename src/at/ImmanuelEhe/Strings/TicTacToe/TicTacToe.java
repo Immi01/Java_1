@@ -1,4 +1,4 @@
-package at.ImmanuelEhe.TicTacToe;
+package at.ImmanuelEhe.Strings.TicTacToe;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
