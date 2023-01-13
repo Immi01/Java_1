@@ -45,6 +45,10 @@ public class Main {
 
         System.out.println(c2.getRemainingRange());
 
+        Truck t1 = new Truck(c2Engine, c3Tank, wheels1, backmirrors1, 33, "Lamborghini", "435876", "yes");
+        t1.setColor("no");
+        System.out.println(t1.getColor() + t1.getTrailer());
+
     }
 
 }
