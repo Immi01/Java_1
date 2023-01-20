@@ -49,7 +49,6 @@ public class Car {
     }
 
 
-
     public void setBrand(String brand) {
         this.brand = brand;
     }

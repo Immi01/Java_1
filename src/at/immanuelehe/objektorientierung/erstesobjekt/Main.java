@@ -48,6 +48,8 @@ public class Main {
         Truck t1 = new Truck(c2Engine, c3Tank, wheels1, backmirrors1, 33, "Lamborghini", "435876", "yes");
         t1.setColor("no");
         System.out.println(t1.getColor() + t1.getTrailer());
+        t1.drive(34);
+        t1.pressBreak();
 
     }
 

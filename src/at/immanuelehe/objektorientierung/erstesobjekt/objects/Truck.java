@@ -17,4 +17,10 @@ public class Truck extends Car {
         this.trailer = trailer;
     }
 
+    @Override
+    public void drive(int speed) {
+        System.out.println("i am driving the truck at " + speed + " kmh! - consumption is high");
+        // super.drive();
+    }
+
 }
