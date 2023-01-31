@@ -4,34 +4,26 @@ public class CheckingsAccount extends BaseAccount{
 
     private float limit;
     private float interestRate;
+    private float overdraftInterest;
 
-    public CheckingsAccount(float balance, float limit, float interestRate) {
+    public CheckingsAccount(float balance, float limit, float interestRate, float overdraftInterest) {
         super(balance);
-        if (limit % 0.01f != 0) {
-            limit = Math.round(limit * 100f) / 100f;
-            System.out.println("The entered amount got rounded to " + limit + " €");
-        }
-        if (interestRate % 0.01f != 0) {
-            interestRate = Math.round(interestRate * 100f) / 100f;
-            System.out.println("The entered amount got rounded to " + interestRate + " €");
-        }
-        this.limit = limit;
-        this.interestRate = interestRate;
+        this.limit = round(limit);
+        this.interestRate = round(interestRate);
+        this.overdraftInterest = round(overdraftInterest);
     }
 
     @Override
     public void withdraw(float amount) throws Exception{
-        if (amount % 0.01f != 0) {
-            amount = Math.round(amount * 100f) / 100f;
-            System.out.println("The entered amount got rounded to " + amount + " €");
-        }
+        amount = round(amount);
         if(amount > 0f) {
-            if (amount < getBalance()-limit)
+            if (amount < getBalance()-limit) {
                 withdraw(amount);
-            if (getBalance() < 0)
-                System.out.println("Warning, you went bellow zero.");
-            else
+                if (getBalance() < 0)
+                    System.out.println("Warning, you went bellow zero.");
+            } else {
                 throw new Exception("Withdrawn amount cannot exceed Balance");
+            }
         } else {
             throw new Exception("Entered value too low");
         }
@@ -42,7 +34,7 @@ public class CheckingsAccount extends BaseAccount{
     }
 
     public void setLimit(float limit) {
-        this.limit = limit;
+        this.limit = round(limit);
     }
 
     public float getInterestRate() {
@@ -50,6 +42,23 @@ public class CheckingsAccount extends BaseAccount{
     }
 
     public void setInterestRate(float interestRate) {
-        this.interestRate = interestRate;
+        this.interestRate = round(interestRate);
     }
+
+    public float getOverdraftInterest() {
+        return overdraftInterest;
+    }
+
+    public void setOverdraftInterest(float overdraftInterest) {
+        this.overdraftInterest = round(overdraftInterest);
+    }
+
+    private float round(float toRound) {
+        if (toRound % 0.01f != 0) {
+            toRound = Math.round(toRound * 100f) / 100f;
+            System.out.println("The entered amount got rounded to " + toRound + " €");
+        }
+        return toRound;
+    }
+
 }
