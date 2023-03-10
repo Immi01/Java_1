@@ -1,5 +1,8 @@
 package at.immanuelehe.objektorientierung.handy.objects;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Camera {
 
     private final int resolution;
@@ -13,8 +16,8 @@ public class Camera {
     }
 
     public PhoneFile makePicture() {
-        PhoneFile phoneFile = new PhoneFile(".jpg", 1600, "pic ");
-        return phoneFile;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        return new PhoneFile(".jpg", (int) (1.7f * resolution), "pic" + dtf.format(LocalDateTime.now()));
     }
 
 }
